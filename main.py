@@ -33,14 +33,29 @@ print(grad);
 # print(a.size);
 # print(t * (a - avg) / a.size);
 
-d = 1e-5;
-a = 10;
-leftv = np.sqrt(a - d);
-rightv = np.sqrt(a + d);
-rst = (rightv - leftv) / (d * 2);
-print(rst);
-rst2 = 0.5 * np.power(a, -0.5);
-print(rst2);
+
+num = 10;
+n = 8;
+
+def func (num):
+    return np.sqrt((1 / n) * num);
+
+def derivative (func, num):
+    d = 1e-5;
+    bak = num;
+    num -= d;
+    leftv = func(num);
+    num = bak;
+    num += d;
+    rightv = func(num);
+    return (rightv - leftv) / (2 * d);
+
+def backward (num):
+    return 0.5 * np.power(num / n, -0.5) / n;
+
+print(derivative(func, num));
+print(backward(num));
+
 
 
 
