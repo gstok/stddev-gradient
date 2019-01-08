@@ -3,28 +3,28 @@
 
 import numpy as np;
 
-a = np.array([3.0, 3.0, 2.0, 4.9, 100.2, -8.9]);
+# a = np.array([3.0, 3.0, 2.0, 4.9, 100.2, -8.9]);
 
-# 数值微分求标准差梯度
-def gradient ():
-    d = 1e-5;
-    grad = np.zeros(a.size);
-    func = lambda : np.std(a, ddof = 1);
-    # func = lambda : np.mean(a);
-    for index, value in enumerate(a):
-        bak = value;
-        a[index] -= d;
-        leftv = func();
-        a[index] = bak;
-        a[index] += d;
-        rightv = func();
-        a[index] = bak;
-        grad[index] = (rightv - leftv) / (d * 2);
-    return grad;
+# # 数值微分求标准差梯度
+# def gradient ():
+#     d = 1e-5;
+#     grad = np.zeros(a.size);
+#     func = lambda : np.std(a, ddof = 1);
+#     # func = lambda : np.mean(a);
+#     for index, value in enumerate(a):
+#         bak = value;
+#         a[index] -= d;
+#         leftv = func();
+#         a[index] = bak;
+#         a[index] += d;
+#         rightv = func();
+#         a[index] = bak;
+#         grad[index] = (rightv - leftv) / (d * 2);
+#     return grad;
 
-grad = gradient();
+# grad = gradient();
 
-print(grad);
+# print(grad);
 
 # std = np.std(a, ddof = 1);
 # avg = np.mean(a);
@@ -34,27 +34,30 @@ print(grad);
 # print(t * (a - avg) / a.size);
 
 
-num = 10;
-n = 8;
+a = np.array([1.0, 2.0, 4.0, 100.0]);
 
-def func (num):
-    return np.sqrt((1 / n) * num);
-
-def derivative (func, num):
+def gradient ():
     d = 1e-5;
-    bak = num;
-    num -= d;
-    leftv = func(num);
-    num = bak;
-    num += d;
-    rightv = func(num);
-    return (rightv - leftv) / (2 * d);
+    # func = lambda: np.sum(a ** 2) / a.size;
+    func = lambda: np.sum((a - np.mean(a)) ** 2) / a.size;
+    # func = lambda: np.mean(a);
+    grad = np.zeros(a.size);
+    for index, value in enumerate(a):
+        bak = value;
+        a[index] -= d;
+        leftv = func();
+        a[index] = bak;
+        a[index] += d;
+        rightv = func();
+        a[index] = bak;
+        grad[index] = (rightv - leftv) / (2 * d);
+    return grad;
 
-def backward (num):
-    return 0.5 * np.power(num / n, -0.5) / n;
+grad1 = gradient();
+print(grad1);
+tmp = (2 * (a - np.mean(a))) / a.size;
+print(tmp);
 
-print(derivative(func, num));
-print(backward(num));
 
 
 
